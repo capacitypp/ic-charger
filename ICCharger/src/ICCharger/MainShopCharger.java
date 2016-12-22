@@ -7,35 +7,23 @@ public class MainShopCharger {
 		studentCards[0] = new StudentCard(12345, "hello", 54321);
 		studentCards[1] = new StudentCard(67890, "world", 9876);
 		
-		/* チャージ機のインスタンス化 */
-		ShopCharger shopCharger = new ShopCharger();
+		/* チャージ機を2つインスタンス化する */
+		ShopCharger[] shopChargers = new ShopCharger[2];
+		for (int i = 0; i < shopChargers.length; i++)
+			shopChargers[i] = new ShopCharger();
 		
 		/* 学生証を挿入していない状態でチャージを試みる */
-		shopCharger.chargeMoney(1000);
+		shopChargers[0].chargeMoney(1000);
 		
-		/* 1枚目の学生証を挿入してチャージ */
-		shopCharger.insertStudentCard(studentCards[0]);
-		shopCharger.chargeMoney(1000);
-		
-		/* 2枚目の学生証を挿入してチャージ */
-		shopCharger.insertStudentCard(studentCards[1]);
-		shopCharger.chargeMoney(2000);
-		
-		/* 最新チャージ年月日を表示 */
-		shopCharger.printChargeHistory();
-		
-		/* 6回以上チャージを行う */
-		for (int i = 0; i < 10; i++) {
-			/* 1枚目の学生証を挿入してチャージ */
-			shopCharger.insertStudentCard(studentCards[0]);
-			shopCharger.chargeMoney(i * 1000);
-			
-			/* 2枚目の学生証を挿入してチャージ */
-			shopCharger.insertStudentCard(studentCards[1]);
-			shopCharger.chargeMoney(i * 2000);			
+		for (int i = 0; i < shopChargers.length; i++) {
+			ShopCharger shopCharger = shopChargers[i];
+			/* 1枚目の学生証を挿入 */
+			shopCharger.insertStudentCard(studentCards[i]);	
+			/* 10回チャージを行う */
+			for (int j = 0; j < 10; j++)
+				shopCharger.chargeMoney(j * 100);
+			/* 最新チャージ履歴を表示 */
+			shopCharger.printChargeHistory();
 		}
-		
-		/* 最新チャージ年月日を表示 */
-		shopCharger.printChargeHistory();
 	}
 }
