@@ -22,6 +22,20 @@ public class MainShopCharger {
 		shopCharger.chargeMoney(2000);
 		
 		/* 最新チャージ年月日を表示 */
-		shopCharger.printLastChargeDate();
+		shopCharger.printChargeHistory();
+		
+		/* 6回以上チャージを行う */
+		for (int i = 0; i < 10; i++) {
+			/* 1枚目の学生証を挿入してチャージ */
+			shopCharger.insertStudentCard(studentCards[0]);
+			shopCharger.chargeMoney(i * 1000);
+			
+			/* 2枚目の学生証を挿入してチャージ */
+			shopCharger.insertStudentCard(studentCards[1]);
+			shopCharger.chargeMoney(i * 2000);			
+		}
+		
+		/* 最新チャージ年月日を表示 */
+		shopCharger.printChargeHistory();
 	}
 }

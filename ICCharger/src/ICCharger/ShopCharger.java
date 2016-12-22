@@ -1,10 +1,15 @@
 package ICCharger;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class ShopCharger {
+	private static final int PRINT_NUMBER = 5;
+	
 	private StudentCard insertedStudentCard; /* 挿入されている学生証 */
-	private String lastChargeDate;	/* 最新チャージ年月日 */
+	private int ID;	/* 次に発行する履歴ID */
+	private ArrayList<HashMap<String, String>> history; /* チャージ履歴 */
 	
 	/* 挿入されている学生証の情報を表示する */
 	private void printAccountBalance() {
@@ -26,7 +31,8 @@ public class ShopCharger {
 	
 	public ShopCharger() {
 		insertedStudentCard = null;
-		lastChargeDate = "";
+		ID = 0;
+		history = new ArrayList<HashMap<String, String>>();
 	}
 	
 	/* 学生証の挿入 */
@@ -43,12 +49,26 @@ public class ShopCharger {
 		}
 		insertedStudentCard.setBalance(insertedStudentCard.getBalance() + money);
 		printAccountBalance();
-		/* 最新チャージ日時の保存 */
-		lastChargeDate = getDate();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("history_id", "" + ID++);
+		map.put("student_id", "" + insertedStudentCard.getID());
+		map.put("time", getDate());
+		map.put("balance", "" + insertedStudentCard.getBalance());
+		history.add(map);
 	}
 
 	/* 最新チャージ日時を表示する */
-	public void printLastChargeDate() {
-		System.out.println("最新チャージ日時 : " + lastChargeDate);
+	public void printChargeHistory() {
+		int idx = history.size() - PRINT_NUMBER;
+		if (idx < 0)
+			idx = 0;
+		for (; idx < history.size(); idx++) {
+			HashMap<String, String> map = history.get(idx);
+			System.out.println("[履歴ID : " + map.get("history_id") + "]");
+			System.out.println("ユーザID : " + map.get("student_id"));
+			System.out.println("日時 : " + map.get("time"));
+			System.out.println("残高 : " + map.get("balance"));
+			System.out.println();
+		}
 	}
 }
